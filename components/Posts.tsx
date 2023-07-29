@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 const initialState: Post[] = [
   {
@@ -14,18 +14,32 @@ const initialState: Post[] = [
   },
 ];
 
-const Post = ({ post }: string) => {
-  return <div>{post}</div>;
+const Post = ({ postText, title, tags }: string) => {
+  return (
+    <div className="bg-white p-5 flex flex-col gap-3 rounded-lg">
+      <h1>{title}</h1>
+      {postText}
+      <div>Tags: {tags}</div>
+    </div>
+  );
 };
 
 const Posts = () => {
   const [posts, setPosts] = useState<Post[]>(initialState);
+  useEffect(() => {}, []);
   return (
     <section className="w-3/6 bg-red-300">
       <div>Latest</div>
       <div>
         {posts.map((post) => {
-          return <Post post={post.text} key={post.postId} />;
+          return (
+            <Post
+              postText={post.text}
+              title={post.title}
+              tags={post.tags}
+              key={post.postId}
+            />
+          );
         })}
       </div>
     </section>

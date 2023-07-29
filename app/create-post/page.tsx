@@ -1,28 +1,50 @@
-import React from "react";
+"use client";
+
+import Form from "@/components/Form";
+import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
+import React, { useState } from "react";
 
 const NewPost = () => {
+  const router = useRouter();
+  const { data: session } = useSession();
+  const [submitting, setSubmitting] = useState(false);
+  const [post, setPost] = useState<Post>({
+    title: "",
+    text: "",
+    tags: "",
+  });
+  const createPost = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setSubmitting(true);
+
+    try {
+      const response = await fetch("/api/prompt/new", {
+        method: "POST",
+        body: JSON.stringify({
+          text: post.text,
+          userId: session?.user.id,
+          tags: post.tags,
+        }),
+      });
+
+      if (response.ok) {
+        router.push("/");
+      }
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setSubmitting(false);
+    }
+  };
   return (
-    <div className="flex flex-col items-center">
-      <div className="flex flex-col w-3/5 justify-center mx-auto min-h-full bg-white ">
-        <div className="flex flex-col gap-4 p-5">
-          Add a cover image
-          <input
-            type="text"
-            className="text-4xl text-gray-600 placeholder-gray-600 placeholder-bold"
-            placeholder="New post title here..."
-          />
-          <input type="text" placeholder="Add up to 4 tags..." />
-        </div>
-        <div className="bg-gray-400">Text settings...</div>
-        <div>
-          <textarea
-            placeholder="Write your post content here..."
-            className="w-full h-1/2 p-6"
-          />
-        </div>
-      </div>
-      <div>Publish</div>
-    </div>
+    <Form
+      setPost={setPost}
+      submitting={submitting}
+      type="Create"
+      post={post}
+      handleSubmit={createPost}
+    />
   );
 };
 

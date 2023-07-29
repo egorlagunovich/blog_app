@@ -5,15 +5,15 @@ import React, { useEffect, useState } from "react";
 import { signOut, signIn, useSession, getProviders } from "next-auth/react";
 import Link from "next/link";
 
-type Providers = {
-  google: {
-    callbackUrl: string;
-    id: string;
-    name: string;
-    signinUrl: string;
-    type: string;
-  };
-};
+// type Providers = {
+//   google: {
+//     callbackUrl: string;
+//     id: string;
+//     name: string;
+//     signinUrl: string;
+//     type: string;
+//   };
+// };
 
 const Navbar = () => {
   const { data: session } = useSession();
@@ -44,7 +44,10 @@ const Navbar = () => {
       </div>
       <div className="sm:flex hidden">
         {session?.user ? (
-          <div className="flex gap-3 md:gap-5">
+          <div className="flex gap-3 md:gap-5 items-center">
+            <Link href="/create-post" className="mr-2">
+              Create Post
+            </Link>
             <button type="button" className="" onClick={() => signOut()}>
               Sign Out
             </button>
@@ -73,11 +76,11 @@ const Navbar = () => {
                   Sign in
                 </button>
               ))} */}
-            <Link href="/create-post" className="mr-2">Create Post</Link>
+
             <button
               type="button"
               onClick={() => {
-                signIn();
+                signIn("google");
               }}
             >
               Sign in
