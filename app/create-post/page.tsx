@@ -9,7 +9,7 @@ const NewPost = () => {
   const router = useRouter();
   const { data: session } = useSession();
   const [submitting, setSubmitting] = useState(false);
-  const [post, setPost] = useState<Post>({
+  const [post, setPost] = useState({
     title: "",
     text: "",
     tags: "",
@@ -19,10 +19,12 @@ const NewPost = () => {
     setSubmitting(true);
 
     try {
-      const response = await fetch("/api/prompt/new", {
+      const response = await fetch("/api/post/new", {
         method: "POST",
         body: JSON.stringify({
           text: post.text,
+          title: post.title,
+          postId: Math.random().toString(),
           userId: session?.user.id,
           tags: post.tags,
         }),

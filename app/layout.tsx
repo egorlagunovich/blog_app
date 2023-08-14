@@ -15,7 +15,7 @@ function RootLayout({ children }: { children: React.ReactNode }) {
       <body className="bg-[#F5F5F5]">
         <Provider>
           <Navbar />
-          <main className="min-h-screen ">{children}</main>
+          <main className="min-h-screen px-48">{children}</main>
           <Footer />
         </Provider>
       </body>

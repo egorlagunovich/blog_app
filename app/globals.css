@@ -19,7 +19,6 @@
 body {
   color: black;
 }
-textarea:focus,
-input:focus {
-  outline: hidden;
+*:focus {
+  outline: none;
 }
