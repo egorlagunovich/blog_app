@@ -4,15 +4,16 @@ import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 
-type PostProps = {
+export type PostProps = {
   postText: string;
   title: string;
   tags: string;
 };
 
-const Post = ({ post }: PostProps) => {
+export const Post = ({ post }: PostProps) => {
+  console.log(post)
   return (
-    <Link href="post" className="bg-white rounded-lg p-5 cursor-pointer">
+    <Link href={`post/${post._id}`} className="bg-white rounded-lg p-5 cursor-pointer">
       <div className="flex flex-col justify-between items-start gap-5">
         <div className="flex-1 flex justify-start items-center gap-3 cursor-pointer">
           <Image
@@ -55,8 +56,7 @@ const Posts = () => {
     fetchPosts();
   }, []);
   return (
-    <section className="w-3/6 bg-red-300">
-      <div>Latest</div>
+    <section className="w-full">
       <div className="flex flex-col-reverse gap-5">
         {posts.map((post) => {
           return (
